@@ -58,6 +58,11 @@ form {
 
 .postCredit {
   font-size: 1rem;
+  color: greenyellow;
+}
+
+.postCredit span[title="timestamp"] {
+  color: yellowgreen;
 }
 
 .reactionButton {
