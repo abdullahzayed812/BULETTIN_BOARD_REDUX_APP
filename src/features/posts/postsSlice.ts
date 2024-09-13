@@ -2,14 +2,14 @@ import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { sub } from "date-fns";
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   content: string;
   userId: string;
   date: string;
   reactions?: {
-    [index: string]: number | undefined;
+    [index: string]: number;
     thumbsUp: number;
     wow: number;
     heart: number;
@@ -17,14 +17,6 @@ interface Post {
     coffee: number;
   };
 }
-
-// const reactionEmoji = {
-//   thumbsUp: "👍",
-//   wow: "😮",
-//   heart: "❤️",
-//   rocket: "🚀",
-//   coffee: "☕",
-// };
 
 export interface InitialState {
   posts: Post[];
@@ -81,15 +73,22 @@ const postsSlice = createSlice({
             content,
             userId,
             date: new Date().toISOString(),
+            reactions: {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0,
+            },
           },
         };
       },
     },
-    addAction(
+    addReaction(
       state,
       action: PayloadAction<{
         postId: string;
-        reaction: keyof Pick<Post, "reactions">;
+        reaction: keyof NonNullable<Post["reactions"]>;
       }>
     ) {
       const { postId, reaction } = action.payload;
@@ -107,7 +106,7 @@ const postsSlice = createSlice({
           };
         }
 
-        post.reactions[reaction] = (post.reactions[reaction] || 0) + 1;
+        post.reactions[reaction]++;
       }
     },
   },
@@ -115,6 +114,6 @@ const postsSlice = createSlice({
 
 export const selectAllPosts = (state: RootState) => state.posts;
 
-export const { addPost } = postsSlice.actions;
+export const { addPost, addReaction } = postsSlice.actions;
 
 export default postsSlice.reducer;
