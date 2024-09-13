@@ -22,6 +22,7 @@ export const AddPostForm: React.FC = () => {
 
       setTitle("");
       setContent("");
+      setUserId("");
     }
   };
 

@@ -18,6 +18,7 @@ export const ReactionButtons: React.FC<ReactionButtonsProps> = ({ post }) => {
 
   const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => (
     <button
+      key={emoji}
       type="button"
       name="reactionButton"
       className="reactionButton"
